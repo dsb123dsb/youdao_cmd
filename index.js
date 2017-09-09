@@ -29,6 +29,8 @@ const readFile = (filename, encoding) => {
 const config = JSON.parse(readFile(configFile,"utf8"));
 
 const word = process.argv.slice(2)[0];
+// const word = process.argv.slice(2).join("%20");
+// const URL = `http://dict.youdao.com/w/eng/${word}`
 const URL = `http://dict.youdao.com/w/${word}`
 const options = {
   'url':URL
@@ -45,8 +47,9 @@ if(config){
 
 const color_output = chalk.keyword(color);
 request(options,(error, response, body)=>{
-console.log(color)
+
   const $ = cheerio.load(body);
   spinner.stop(true);
   console.log(color_output($('div#phrsListTab > div.trans-container > ul').text()));
+  // console.log(color_output($('div#fanyiToggle > div.trans-container > p').slice(0, 2).text()));
 });
